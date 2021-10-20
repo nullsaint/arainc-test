@@ -3,7 +3,7 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['app.araincbd.com']
+ALLOWED_HOSTS = ['104.129.4.213']
 
 DATABASES = {
     'default': {
