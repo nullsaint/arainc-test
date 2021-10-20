@@ -1,0 +1,186 @@
+{% load static %}
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
+    <div class="sidebar-brand-icon">
+      <img src="{% static 'img/logo.png' %}" id="logo" alt="logo" width="100" height="40">
+    </div>
+    <div class="sidebar-brand-text mx-3"></div>
+  </a>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item active">
+    <a class="nav-link" href="{% url 'dashboard' %}">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  {% for group in user.groups.all %}
+  {% if group.name == 'admin'%}
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Admin
+  </div>
+
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#admin" aria-expanded="true"
+      aria-controls="admin">
+      <i class="fas fa-building"></i>
+      <span>Ara Inc</span>
+    </a>
+    <div id="admin" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="{% url 'admin:index' %}">Administrator</a>
+        <a class="collapse-item" href="{% url 'tempgrowth_import' %}">Upload Temp Growth</a>
+        <!-- <a class="collapse-item" href="{% url 'hashtag_score' %}">Hashtag Score</a>
+        <a class="collapse-item" href="{% url 'location_import' %}">Upload Location</a> -->
+      </div>
+    </div>
+  </li>
+  <!-- <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#growths" aria-expanded="true"
+      aria-controls="growths">
+      <i class="fas fa-users-cog"></i>
+      <span>Growth</span>
+    </a>
+    <div id="growths" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="{% url 'growths' %}">Growth Database</a>
+        <a class="collapse-item" href="{% url 'upload_growth' %}">Upload Old Growth</a>
+        <a class="collapse-item" href="{% url 'tempgrowth_import' %}">Upload Temp Growth</a>
+        <a class="collapse-item" href="{% url 'push_to_listing' %}">Push to Listing</a>
+        <a class="collapse-item" href="{% url 'growth_stats' %}">Growth Stats</a>
+        <a class="collapse-item" href="{% url 'growth_export' %}">Growth Export</a>
+        <a class="collapse-item" href="{% url 'growtharchive_export' %}">Growth Archive Export</a>
+      </div>
+    </div>
+  </li> -->
+  <!-- <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listings" aria-expanded="true"
+      aria-controls="listings">
+      <i class="fa fa-list"></i>
+      <span>Listing</span>
+    </a>
+    <div id="listings" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <a class="collapse-item" href="{% url 'listings' %}">Listing Database</a>
+        <a class="collapse-item" href="{% url 'templisting_import' %}">Upload Temp Listing</a>
+      </div>
+    </div>
+  </li> -->
+  {% endif %}
+  {% endfor %}
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    EMPLOYEES
+  </div>
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#post_urls" aria-expanded="true"
+      aria-controls="post_urls">
+      <i class="fas fa-list"></i>
+      <span>Scrape</span>
+    </a>
+    <div id="post_urls" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      {% for group in user.groups.all %}
+      {% if group.name == 'admin' or group.name == 'igteamlead' or group.name == 'screening' %}
+        <div class="bg-white py-2 collapse-inner rounded">
+          <!-- <a class="collapse-item" href="{% url 'posturl_scrapping_stats' %}">Post URL Scrapping Stats</a>
+          <a class="collapse-item" href="{% url 'temp_posturl_import' %}">Upload Post URLs</a>
+          <a class="collapse-item" href="{% url 'process_post_urls' %}">Process Post URLs</a>
+          <a class="collapse-item" href="{% url 'scrape_username' %}">Scrape Usernames</a>
+          <a class="collapse-item" href="{% url 'push_usernames_to_tempgrowth' %}">Push to Tempgrowth</a> -->
+          
+          <!-- <a class="collapse-item" href="{% url 'growthdedupe_import' %}">Upload to Growthdedupe</a>
+          <a class="collapse-item" href="{% url 'process_growthdedupe' %}">Process Growthdedupe</a> -->
+          <a class="collapse-item" href="{% url 'growthdedupe_import' %}">Upload to Growthdedupe</a>
+          <a class="collapse-item" href="{% url 'process_growthdedupe' %}">Process Growthdedupe</a>
+          <a class="collapse-item" href="{% url 'scrape_posts' %}">Growth Segmentation</a>
+          <!-- Divider -->
+         
+          <a class="collapse-item" href="{% url 'combine_csv' %}">Combine CSV Files</a>
+          <a class="collapse-item" href="{% url 'vlookup' %}">VlookUp</a>
+          <a class="collapse-item" href="{% url 'optimize_language' %}">Optimize and language</a>
+          <a class="collapse-item" href="{% url 'language_segment_template' %}">language_segment_template</a>
+          <a class="collapse-item" href="{% url 'growth_segment' %}">Growth Segment</a>
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+
+          <!-- <a class="collapse-item" href="{% url 'listingdedupe_import' %}">Upload to Listingdedupe</a>
+          <a class="collapse-item" href="{% url 'process_listingdedupe' %}">Process Listingdedupe</a>
+          <a class="collapse-item" href="{% url 'scrape_listing_data' %}">Listing Segmentation</a> -->
+        </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </li>
+  <li class="nav-item">
+    <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#growth" aria-expanded="true"
+      aria-controls="growth">
+      <i class="fas fa-users-cog"></i>
+      <span>Growth</span>
+    </a> -->
+    <div id="growth" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      {% for group in user.groups.all %}
+      {% if group.name == 'admin' or group.name == 'igteamlead' or group.name == 'screening' %}
+      <div class="bg-white py-2 collapse-inner rounded">
+        <div class="collapse-divider"></div>
+        <a class="collapse-item" href="{% url 'phase2_reviews' %}">Phase 2 Screening</a>
+        <a class="collapse-item" href="{% url 'screenings' %}">Cold Screening</a>
+        <a class="collapse-item" href="{% url 'growth_reveiws' %}">Growth in Progress</a>
+        <a class="collapse-item" href="{% url 'cold_unfollowings' %}">Cold Unfollowings</a>
+        <a class="collapse-item" href="{% url 'warm_unfollowings' %}">Warm Unfollowings</a>
+        <a class="collapse-item" href="{% url 'growth_user_stats' %}">User Stats</a>
+        <a class="collapse-item" href="{% url 'growtharchive_user_stats' %}">Archive User Stats</a>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </li>
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#listing" aria-expanded="true"
+      aria-controls="listing">
+      <i class="fa fa-list"></i>
+      <span>Listing</span>
+    </a> -->
+    <div id="listing" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      {% for group in user.groups.all %}
+      {% if group.name == 'admin' or group.name == 'igteamlead' or group.name == 'device_only' or group.name == 'dm_team' %}
+      <div class="bg-white py-2 collapse-inner rounded">
+        <div class="collapse-divider"></div>
+        <a class="collapse-item" href="{% url 'warm_screenings' %}">Warm Screenings</a>
+        <a class="collapse-item" href="{% url 'cs_crosscheck' %}">CS Crosscheck</a>
+        <a class="collapse-item" href="{% url 'cs_creates' %}">CS Create</a>
+        <a class="collapse-item" href="{% url 'cs_reviews' %}">CS Review</a>
+        <a class="collapse-item" href="{% url 'message_sendings' %}">Message Sending</a>
+        <a class="collapse-item" href="{% url 'omses' %}">Openning Message Status</a>
+        <a class="collapse-item" href="{% url 'listing_user_stats' %}">User Stats</a>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-1" id="sidebarToggle"></button>
+  </div>
+
+</ul>
+<!-- End of Sidebar -->

@@ -1,0 +1,67 @@
+{% extends 'araincdb/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">{{ heading }}</h3>
+            <div class="row">
+                <div class="col-sm">
+                    Id: {{screening.id}} <a href="https://www.instagram.com/{{ screening.profile_username }}" target="_blank">https://www.instagram.com/{{ screening.profile_username }}</a>
+                </div>
+                <div class="col-sm d-flex justify-content-end">
+                    <form action="{% url 'screening_review' %} " method="POST" autocomplete="off">
+                        {% csrf_token %}
+                        <button type="submit" name="stop_review" class="btn btn-danger">
+                            <span class="fas fa-stop"></span> Stop Review
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}   
+            <form action="{% url 'screening_review_complete' screening.id %}" method="POST" autocomplete="off" id="myForm">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm">
+                        <button type="submit" name="complete_review" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div class="col-sm">
+                        Location: {{ screening.location }}
+                    </div>
+                </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm">
+                    {{ form.as_p }}
+                </div>
+                <div class="col-sm">
+                    <strong>{{ screening.connection_status }}</strong> <br>
+                    <strong>{{ screening.post_count }}</strong> posts
+                    <strong>{{ screening.followers }}</strong> followers
+                    <strong>{{ screening.followings }}</strong> following <br>
+                    <strong>{{ screening.full_name }}</strong> <br>                    
+                    <p>{{ screening.profile_description }}</p>
+                    <p>{{ screening.caption }}</p>                  
+                </div>
+              </div>
+            </form>
+            <!-- <div class="row">
+                {% for photo in photos %}
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="card shadow">
+                        <img src="{% static photo %}"/>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>             -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}

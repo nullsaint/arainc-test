@@ -1,0 +1,33 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+<div class="">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">{{ heading }}</h3>
+            Profile URL: <a href="https://www.instagram.com/{{ cs.profile_username }}/"
+                target="_blank">https://www.instagram.com/{{ cs.profile_username }}</a>
+            {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <form action="{% url 'warm_unfollowing_complete' cs.id %}" method="POST" autocomplete="off" id="myForm">
+                {% csrf_token %}
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm">
+                    <h2>Growth Done Date: {{ cs.growthed_date }}</h2>                    
+                    {{ form.as_p }}
+                </div>
+                <div class="col-sm">
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

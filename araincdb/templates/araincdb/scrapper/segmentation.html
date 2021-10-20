@@ -1,0 +1,29 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+
+<div class="card text-black mb-3">
+    <h5 class="card-header text-center">SEGMENTATION</h5>
+    <div class="card-body">
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+            {{ message }}
+            </div>
+        {% endfor %}
+        <form action="{% url 'segmentation' %}" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <br>
+            <div class="form-row">
+                <div class="form-group col-md-4 mb-0"> <br>
+                    <button type="submit" name="submit" class="btn btn-primary">
+                    <span class="fas fa-search"></span> Segment Profiles
+                    </button>
+                </div>
+            </div>
+        </form>
+        <br>
+
+    </div>
+</div>
+
+{% endblock %}

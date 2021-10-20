@@ -1,0 +1,99 @@
+{% extends 'araincdb/main.html' %}
+
+{% load widget_tweaks %}
+
+
+{% block content %}
+
+    <div class="card text-black mb-3">
+        <h5 class="card-header text-center">LISTING</h5>
+        <div class="card-body">
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                {{ message }}
+                </div>
+            {% endfor %}
+            <form action="" method="POST" autocomplete="off">
+              {% csrf_token %}
+              <br>
+              <div class="form-row">
+                <div class="form-group col-md-4 mb-0">                    
+                    <label class="" for="profile_username">Profile Username</label>
+                    <input required class="form-control form-control-sm" name="profile_username" id="profile_username" value="{{ request.POST.profile_username }}"></input> 
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    <br>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="fas fa-search"></span> Search
+                    </button>
+                </div>
+              </div>
+            </form>
+            <br>
+
+            <div align="center" style="overflow:auto">
+                <table id="myTable" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Account Name</th>
+                            <th scope="col">Connection Status</th>
+                            <th scope="col">Profile URL</th>
+                            <th scope="col">Connection Type</th>
+                            <th scope="col">Listing Feedback</th>
+                            <th scope="col">Operation Date</th>
+                            <th scope="col">Message Sending Status</th>
+                            <th scope="col">OMS</th>
+                            <th scope="col">Quality Status</th>
+                            <th scope="col">Remark</th>
+                            {% for group in user.groups.all %}
+                              {% if group.name == 'admin' or group.name == 'igteamlead' %}
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                              {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for listing in listings %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'read_listing' listing.id %}" type="button" class="update-book btn btn-sm btn-info">
+                                {{ listing.id }}
+                                </a>
+                            </td>
+                            <td>{{ listing.account_name }}</td>
+                            <td>{{ listing.connection_status }}</td>
+                            <td>https://www.instagram.com/{{ listing.profile_username }}</td>
+                            <td>{{ listing.connection_type }}</td>
+                            <td>{{ listing.feedback_listing }}</td>
+                            <td>{{ listing.operation_date }}</td>
+                            <td>{{ listing.mss }}</td>
+                            <td>{{ listing.oms }}</td>
+                            <td>{{ listing.quality_status }}</td>
+                            <td>{{ listing.remarks }}</td>
+                            {% for group in user.groups.all %}
+                              {% if group.name == 'admin' or group.name == 'igteamlead' %}
+                            <td class="text-center">
+                                <a href="{% url 'update_listing' listing.id %}" target="_blank" type="button" class="update-book btn btn-sm btn-primary">
+                                  <i class="far fa-edit"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete_listing' listing.id %}" target="_blank" type="button" class="update-book btn btn-sm btn-danger">
+                                  <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                              {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

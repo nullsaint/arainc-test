@@ -1,0 +1,63 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-header">
+                <h5 class="text-center">POST URL SCRAPPING STATS</h5>
+            </div>
+            <div class="card-body">
+                <div class="overflow-auto">
+                    <table class="myTable table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Client</th>
+                            <th scope="col">Post Left to Scrape</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in posturl_stats %}
+                            <tr>
+                                <th>{{ item.client }}</th>
+                                <td>{{ item.number }}</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-header">
+                <h5 class="text-center">POST URL USER STATS</h5>
+            </div>
+            <div class="card-body">
+                <div class="overflow-auto">
+                    <table class="myTable table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">User</th>
+                            <th scope="col">Client</th>
+                            <th scope="col">Post Left to Scrape</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in user_stats %}
+                            <tr>
+                                <th>{{ item.user }}</th>
+                                <th>{{ item.client }}</th>
+                                <td>{{ item.number }}</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

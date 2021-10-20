@@ -1,0 +1,15 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+
+<div class="card text-black mb-3">
+    <h1>Enter all hashtag together:</h1>
+        <form action="{% url 'combine_csv' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file_field" multiple>
+            <button type="submit" name="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

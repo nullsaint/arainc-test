@@ -1,0 +1,22 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+
+<div class="">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">{{ heading }}</h3>
+        </div>
+        <div class="card-body">
+            <p>Are you sure you want to delete "{{ listing.profile_username }}"?</p>
+            <form action="{% url 'delete_listing' listing.id %}" method="POST">
+                {% csrf_token %}
+                <br>
+                <a href="{% url 'listings' %}" type="button" class="update-book btn btn-primary">Cancel</a>
+                  <button type="submit" name="submit" class="btn btn-danger">{{ heading }}</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'araincdb/main.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+  <div class="card text-black mb-3">
+    <h5 class="card-header text-center">COLD SCREENINGS</h5>
+    <div class="card-body">
+          {% for message in messages %}
+              <div class="alert alert-success" role="alert">
+              {{ message }}
+              </div>
+          {% endfor %}
+
+          <div class="row">
+            <div class="col">
+              Current Assigned Client: {{ user.employee.assigned_client }}
+            </div>
+            <div class="col">
+              Current Assigned Screening: 
+              {% for screening in screenings %}
+                  <div class="alert alert-info" role="alert">
+                  {{ screening.1 }}
+                  </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <form action="{% url 'assign_client' 'screenings' %}" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <br>
+            <div class="form-row">
+              <div class="form-group col-md-4 mb-0">
+                {{ form.as_p }}
+              </div>
+              <div class="form-group col-md-4 mb-0">
+                <br>
+                <button type="submit" class="btn btn-primary">
+                  <span class="fas fa-search"></span> Assign
+              </button>
+              </div>
+              <div class="form-group col-md-4 mb-0">
+                <br>
+                <a href="{% url 'screening_review' %}" class="btn btn-info">Begin Review</a>
+              </div>
+            </div>
+              <br>
+          </form>
+
+          <div class="row">
+            <!-- Client Screening Status Card -->
+            <div class="col-xl-6 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs text-center font-weight-bold text-primary text-uppercase mb-1">Screening Status Today</div>
+                        <div class="overflow-auto">
+                          <table id="myTable" class="myTable table table-striped">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Account</th>
+                                  <th scope="col">Ready to Growth</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  {% for client_stat in client_stats_today %}
+                                  <tr>
+                                      <th>{{ client_stat.account }}</th>
+                                      <td>{{ client_stat.number }}</td>
+                                  </tr>
+                                {% endfor %}
+                              </tbody>
+                          </table>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <!-- Client Growth Status This Month Card -->
+            <div class="col-xl-6 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs text-center font-weight-bold text-primary text-uppercase mb-1">Screening Status This Month</div>
+                        <div class="overflow-auto">
+                          <table id="myTable" class="myTable table table-striped">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Account</th>
+                                  <th scope="col">Ready to Growth</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  {% for client_stat in client_stats_month %}
+                                  <tr>
+                                      <th>{{ client_stat.account }}</th>
+                                      <td>{{ client_stat.number }}</td>
+                                  </tr>
+                                {% endfor %}
+                              </tbody>
+                          </table>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Row Ends -->
+
+      </div>
+  </div>
+
+{% endblock %}

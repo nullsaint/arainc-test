@@ -1,0 +1,18 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+
+<div class="card text-black mb-3">
+        <h1>VlookUp</h1> 
+        <p>Enter two files: </p>
+        <p>Main file name should be: 1.csv</p>
+        <p>After deduped file name should be: 2.csv</p>
+        <form action="{% url 'vlookup' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file_field" multiple>
+            <button type="submit" name="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

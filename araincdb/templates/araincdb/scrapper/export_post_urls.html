@@ -1,0 +1,39 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+
+<div class="card text-black mb-3">
+    <h5 class="card-header text-center">{{ heading|upper}}</h5>
+    <div class="card-body">
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        <form action="" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <br>                
+            <div class="form-row">
+            <div class="form-group col-md-4 mb-0">
+                <label class="" for="start_time">Start Date</label>
+                <input required class="form-control form-control-sm" placeholder="YYYY-MM-DD HH:MM:SS"  name="start_time" id="start_time"
+                value="{{ request.POST.start_time }}"></input>
+            </div>
+            <div class="form-group col-md-4 mb-0">
+                <label class="" for="end_time">End Date</label>
+                <input required class="form-control form-control-sm" placeholder="YYYY-MM-DD HH:MM:SS"  name="end_time" id="end_time"
+                value="{{ request.POST.end_time }}"></input>
+            </div>
+            <div class="form-group col-md-4 mb-0"> <br>
+                <button type="submit" name="submit" class="btn btn-primary">
+                <span class="fas fa-search"></span> Submit
+                </button>
+            </div>
+            </div>
+        </form>
+        <br>
+
+    </div>
+</div>
+
+{% endblock %}

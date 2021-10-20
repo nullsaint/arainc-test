@@ -1,0 +1,40 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+<div class="">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">{{ heading }}</h3>
+            Profile URL: <a href="https://www.instagram.com/{{ screening.profile_username }}" target="_blank">https://www.instagram.com/{{ screening.profile_username }}</a>
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}   
+            <form action="{% url 'warm_screening_complete' screening.id %}" method="POST" autocomplete="off" id="myForm">
+                {% csrf_token %}
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm">
+                    {{ form.as_p }}
+                </div>
+                <div class="col-sm">
+                    <strong>{{ screening.connection_status }}</strong> <br>
+                    Photo URL/ Query: <a href="{{ screening.photo_url_query }}" target="_blank">{{ screening.photo_url_query }}</a><br>                    
+                    <!-- <img src="{{ insta_data.ProfilePicUrl }}" class="img-fluid rounded-circle img-thumbnail" alt="Responsive image" style="width: 168px; height: 168px;"> <br> -->
+                    <strong>{{ screening.PostCount }}</strong> posts
+                    <strong>{{ screening.Followers }}</strong> followers
+                    <strong>{{ screening.Following }}</strong> following <br>
+                    <strong>{{ screening.FullName }}</strong> <br>
+                    <p>{{ screening.profile_description }}</p>
+                    <p>{{ screening.caption }}</p>                  
+                </div>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

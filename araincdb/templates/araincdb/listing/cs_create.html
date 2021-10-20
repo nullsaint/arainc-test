@@ -1,0 +1,39 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+<div class="">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="text-center">{{ heading }}</h3>
+            Profile URL: <a href="https://www.instagram.com/{{ cs.profile_username }}/"
+                target="_blank">https://www.instagram.com/{{ cs.profile_username }}</a>
+            {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            <form action="{% url 'cs_create_complete' cs.id %}" method="POST" autocomplete="off" id="myForm">
+                {% csrf_token %}
+                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm">
+                    {{ form.as_p }}
+                </div>
+                <div class="col-sm">
+                    <!-- <img src="{{ insta_data.ProfilePicUrl }}" class="img-fluid rounded-circle img-thumbnail" alt="Responsive image" style="width: 168px; height: 168px;"> <br> -->
+                    <strong>{{ cs.PostCount }}</strong> posts
+                    <strong>{{ cs.Followers }}</strong> followers
+                    <strong>{{ cs.Following }}</strong> following <br>
+                    <strong>{{ cs.FullName }}</strong> <br>
+                    <p>{{ cs.profile_description }}</p>
+                    <p>{{ cs.caption }}</p>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

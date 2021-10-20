@@ -1,0 +1,42 @@
+
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+  <p>
+
+    <div class="form-row">
+        <div class="form-group col-md-4 mb-0">
+            <label class="" for="client">Account</label>
+            <select required class="form-control form-control-sm" name="account" id="account">
+                <option value="">Select an Account</option>
+            {% for account in accounts %}
+                <option value="{{account.id}}"
+                        {% if account.id == request.POST.account %}selected="selected"{% endif %}>
+                    {{account.account_code}}
+                </option>
+                {{account}} {{request.POST.account}}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="form-group col-md-4 mb-0">
+            Are you sure you want to execute this action on the below items?
+        </div>
+        <br>
+        <div class="form-group col-md-4 mb-0">   
+            <input type="submit" name="apply" value="Execute"/>
+        </div>
+    </div>
+  </p>
+    {% for growth in growths %}
+      <p>
+        {{ growth }}
+      </p>
+      <input type="hidden" name="_selected_action" value="{{ growth.pk }}" />
+    {% endfor %}
+  
+    <input type="hidden" name="action" value="growth_assign" />
+  </form>
+{% endblock %}

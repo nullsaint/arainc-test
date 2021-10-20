@@ -1,0 +1,273 @@
+{% load custom_time %}
+<!-- Content Row -->
+<div class="row">
+  <!-- Growth Connection Status Card -->
+  <div class="col-xl-6 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+            <div class="text-xs text-center font-weight-bold text-success text-uppercase mb-1">Connection Status</div>
+            <div class="overflow-auto">
+                <table id="myTable1" class="myTable table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Client</th>
+                        <th scope="col">Account</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for connection_status in connection_statuses %}
+                        <tr>
+                            <th>{{ connection_status.client }}</th>
+                            <th>{{ connection_status.account }}</th>
+                            <th>{{ connection_status.status }}</th>
+                            <td>{{ connection_status.number }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+  </div>
+<!-- Listing Status Card -->
+<div class="col-xl-6 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+            <div class="text-xs text-center font-weight-bold text-primary text-uppercase mb-1">Listing Status (Live)</div>
+            <hr>
+            <!-- <form action="{% url 'home' %}" method="POST" autocomplete="off">
+                {% csrf_token %}
+                <br>
+                <div class="form-row">
+                  <div class="form-group col-md-4 mb-0">
+                    <label class="" for="account">Account</label>
+                    <select class="form-control form-control-sm" name="account" id="account">
+                        <option value="">Select an Account</option>
+                    {% for account in accounts %}
+                        <option value="{{account.id}}"
+                                {% if account.id == request.POST.account %}selected="selected"{% endif %}>
+                            {{account.account_code}}
+                        </option>
+                        {{account}} {{request.POST.account}}
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4 mb-0">
+                      <label class="" for="connection_status">Connection Status</label>
+                      <select class="form-control form-control-sm" name="connection_status" id="connection_status">
+                          <option value="">Select a Status</option>
+                      {% for connection_status in connection_status_es %}
+                          <option value="{{connection_status.id}}"
+                                  {% if connection_status == request.POST.connection_status %}selected="selected"{% endif %}>
+                              {{connection_status.connection_status}}
+                          </option>
+                          {{connection_status}} {{request.POST.connection_status}}
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <div class="form-group col-md-4 mb-0"> <br>
+                    <button type="submit" name="ls" class="btn btn-primary">
+                      <span class="fas fa-search"></span> Submit
+                    </button>
+                  </div>
+                </div>
+              </form> -->
+              <br>
+            <div class="overflow-auto">
+                <table id="myTable" class="myTable table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Account Name</th>
+                        <th scope="col">Listing Status</th>
+                        <th scope="col">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for listing_status in listing_statuses %}
+                        <tr>
+                            <th>{{ listing_status.account_code }}</th>
+                            <td>{{ listing_status.connection_statuses }}</td>
+                            <td>{{ listing_status.number }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+
+
+<div class="row">
+
+  <!-- Growth Quality Status Card -->
+  <div class="col-xl-6 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+            <div class="text-xs text-center font-weight-bold text-primary text-uppercase mb-1">Quality Status</div>
+            <div class="overflow-auto">
+                <table id="myTable" class="myTable table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Status</th>
+                        <th scope="col">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for quality_status in quality_statuses %}
+                        <tr>
+                            <th>{{ quality_status.status }}</th>
+                            <td>{{ quality_status.number }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+  </div>
+
+
+
+  <!-- Growth Growth Status Card -->
+  <div class="col-xl-6 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+            <div class="text-xs text-center font-weight-bold text-info text-uppercase mb-1">Growth Status</div>
+            <div class="overflow-auto">
+                <table id="myTable1" class="myTable table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Status</th>
+                        <th scope="col">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for growth_status in growth_statuses %}
+                        <tr>
+                            <th>{{ growth_status.status }}</th>
+                            <td>{{ growth_status.number }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+
+  <!-- OMS Status Card -->
+  <div class="col-xl-6 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+          <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+              <div class="text-xs text-center font-weight-bold text-success text-uppercase mb-1">OMS Status</div>
+              <hr>
+              <form action="{% url 'dashboard' %}" method="POST" autocomplete="off">
+                  {% csrf_token %}
+                  <br>
+                  <div class="form-row">
+                    <div class="form-group col-md-4 mb-0">
+                      <label class="" for="start_date">Start Date</label>
+                      <input required class="form-control form-control-sm jq-datepicker" name="start_date" id="start_date" value="{{ request.POST.start_date }}"></input> 
+                    </div>
+                    <div class="form-group col-md-4 mb-0">
+                      <label class="" for="end_date">End Date</label>
+                      <input required class="form-control form-control-sm jq-datepicker" name="end_date" id="end_date" value="{{ request.POST.end_date }}"></input> 
+                    </div>
+                    <div class="form-group col-md-4 mb-0"> <br>
+                      <button type="submit" name="oms" class="btn btn-primary">
+                        <span class="fas fa-search"></span> Submit
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <br>
+              <div class="overflow-auto">
+                  <table id="myTable1" class="myTable table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Account Name</th>
+                          <th scope="col">Listing Status</th>
+                          <th scope="col">Count</th>
+                          <th scope="col">Percentage</th>                        
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for oms_status in oms_statuses %}
+                          <tr>
+                              <th>{{ oms_status.0 }}</th>
+                              <td>{{ oms_status.1 }}</td>
+                              <td>{{ oms_status.2 }}</td>
+                              <td>{{ oms_status.3 }}</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+              </div>
+          </div>
+          </div>
+      </div>
+      </div>
+  </div>
+  
+  <!-- OMS Percentage Card -->
+  <div class="col-xl-6 col-md-6 mb-4">
+
+    <div class="card border-left-warning shadow h-100 py-2">
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+            <div class="text-xs text-center font-weight-bold text-warning text-uppercase mb-1">OMS Percentage</div>
+            <div class="overflow-auto">
+                <table id="myTable1" class="myTable table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Account</th>
+                        <th scope="col">Total Sent</th>
+                        <th scope="col">Total Replied</th>
+                        <th scope="col">Percentage</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for oms_percent in oms_percents %}
+                        <tr>
+                            <th>{{ oms_percent.0 }}</th>
+                            <td>{{ oms_percent.1 }}</td>
+                            <td>{{ oms_percent.2 }}</td>
+                            <td>{{ oms_percent.3 }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+  </div>
+
+</div>

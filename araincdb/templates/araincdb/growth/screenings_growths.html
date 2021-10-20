@@ -1,0 +1,124 @@
+{% extends 'araincdb/main.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+    <div class="card text-black mb-3">
+        <h5 class="card-header text-center">GROWTH IN PROGRESS</h5>
+        <div class="card-body">
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                {{ message }}
+                </div>
+            {% endfor %}
+          <div class="row">
+            <div class="col">            
+              Current Assigned Account: {{ user.employee.assigned_account }}
+            </div>
+            <div class="col">
+              Current Assigned Growth: 
+              {% for screening in assigned_growths %}
+                  <div class="alert alert-info" role="alert">
+                  {{ screening.1 }}
+                  </div>
+              {% endfor %}
+            </div>
+          </div>
+            <form action="{% url 'assign_account' 'growth_reveiws' %}" method="POST" autocomplete="off">
+              {% csrf_token %}
+              <br>
+              <div class="form-row">
+                <div class="form-group col-md-4 mb-0">
+                  {{ form.as_p }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <br>
+                  <button type="submit" class="btn btn-primary">
+                    <span class="fas fa-search"></span> Assign
+                </button>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <br>
+                  <a href="{% url 'growth_review' %}" class="btn btn-info">Begin Review</a>
+                </div>
+              </div>
+               <br>
+            </form>
+            
+            <div class="row">
+              <!-- Client Growth Status Today Card -->
+              <div class="col-xl-6 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs text-center font-weight-bold text-primary text-uppercase mb-1">Growth Status Today</div>
+                          <div class="overflow-auto">
+                            <table id="myTable" class="myTable table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Account</th>
+                                    <th scope="col">Growth Left</th>
+                                    <th scope="col">Growth Done</th>
+                                    <th scope="col">Rejected</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for client_growth_stat in client_growth_stats_today %}
+                                    <tr>
+                                        <th>{{ client_growth_stat.0 }}</th>
+                                        <td>{{ client_growth_stat.1 }}</td>
+                                        <td>{{ client_growth_stat.2 }}</td>
+                                        <td>{{ client_growth_stat.3 }}</td>
+                                    </tr>
+                                  {% endfor %}
+                                </tbody>
+                            </table>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+              <!-- Client Growth Status This Month Card -->
+              <div class="col-xl-6 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs text-center font-weight-bold text-primary text-uppercase mb-1">Growth Status This Month</div>
+                          <div class="overflow-auto">
+                            <table id="myTable" class="myTable table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Account</th>
+                                    <th scope="col">Growth Left</th>
+                                    <th scope="col">Growth Done</th>
+                                    <th scope="col">Rejected</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {% for client_growth_stat in client_growth_stats_month %}
+                                    <tr>
+                                        <th>{{ client_growth_stat.0 }}</th>
+                                        <td>{{ client_growth_stat.1 }}</td>
+                                        <td>{{ client_growth_stat.2 }}</td>
+                                        <td>{{ client_growth_stat.3 }}</td>
+                                    </tr>
+                                  {% endfor %}
+                                </tbody>
+                            </table>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+  
+            </div>
+            <!-- Row Ends -->            
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'araincdb/main.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+    <div class="card text-black mb-3">
+        <h5 class="card-header text-center">CS Creates</h5>
+        <div class="card-body">
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                {{ message }}
+                </div>
+            {% endfor %}
+            
+            Current Assigned Account: {{ user.employee.assigned_account }}
+
+            <form action="{% url 'assign_account' 'cs_creates' %}" method="POST" autocomplete="off">
+              {% csrf_token %}
+              <br>
+              <div class="form-row">
+                <div class="form-group col-md-4 mb-0">
+                  {{ form.as_p }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <br>
+                  <button type="submit" class="btn btn-primary">
+                    <span class="fas fa-search"></span> Assign
+                </button>
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                  <br>
+                  <a href="{% url 'cs_create' %}" class="btn btn-info">Begin Review</a>
+                </div>
+              </div>
+               <br>
+            </form>
+            <br>
+        </div>
+    </div>
+
+{% endblock %}
