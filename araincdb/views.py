@@ -2077,6 +2077,7 @@ def optimize_language(request):
                 res = detect_langs(str)
                 language.append(detect_langs(str))
                 word_count.append([x,y])
+                return HttpResponse("ok")
             except LangDetectException:
                 language.append('Unindentified')
                 word_count.append([0,0])
