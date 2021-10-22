@@ -2081,6 +2081,7 @@ def optimize_language(request):
             except LangDetectException:
                 language.append('Unindentified')
                 word_count.append([0,0])
+                ##
                 continue
         df['language'] = language
         df['word_count'] = word_count
