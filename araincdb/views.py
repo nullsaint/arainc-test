@@ -1953,7 +1953,7 @@ def export_listing(request):
     
     response['Content-Disposition'] = 'attachment; filename="listing.csv"'
     return response
-
+@login_required(login_url='login')
 def combine_csv(request):
     #response = HttpResponse(content_type='text/csv')
 
@@ -1992,6 +1992,7 @@ def combine_csv(request):
     context = {}
     return render(request, 'araincdb/scrapper/combine_csv.html', context)
 
+@login_required(login_url='login')
 def vlookup(request):
     print('Vlookup Starts...')
     df = pd.DataFrame()
@@ -2024,6 +2025,7 @@ def vlookup(request):
     context = {}
     return render(request, 'araincdb/scrapper/vlookup.html', context)
 
+@login_required(login_url='login')
 def optimize_language(request):
     desc = []
     def count_ratio(stra):
@@ -2130,6 +2132,7 @@ def optimize_language(request):
     context = {}
     return render(request,'araincdb/scrapper/optimize_language.html', context)
 
+@login_required(login_url='login')
 def language_segment_template(request):
     df = pd.DataFrame()
     df2 = pd.DataFrame()
@@ -2165,6 +2168,7 @@ def language_segment_template(request):
     context = {}
     return render(request,'araincdb/scrapper/language_segment_template.html', context)
 
+@login_required(login_url='login')
 def growth_segment(request):
     print("Growth Segment On The Fly")
     df = pd.DataFrame()
