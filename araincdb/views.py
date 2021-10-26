@@ -13,10 +13,11 @@ from calendar import monthrange
 from django.http import HttpResponse,JsonResponse
 from django.views import View
 from django.views.generic.edit import FormView
-
-
+from datetime import datetime
+import zipfile
 import io, csv
-
+from shutil import make_archive
+from wsgiref.util import FileWrapper
 from . models import *
 from . forms import *
 from . decorators import *
@@ -2148,7 +2149,7 @@ def language_segment_template(request):
                 language_analysis.append('Unidentified')
             else:
                 x = str(i[1:-1])
-                print(x)
+                #print(x)
                 if x.find('en')>=0:
                     language_analysis.append('Accepted')
                 elif x.find('es') >=0:
@@ -2161,10 +2162,109 @@ def language_segment_template(request):
                     language_analysis.append('Bad Language')
 
         df['language_analysis'] = language_analysis
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename=Output.csv'
-        df.to_csv(response,index=False)
+        # response = HttpResponse(content_type='text/csv')
+        # response['Content-Disposition'] = 'attachment; filename=Output.csv'
+        # df.to_csv(response,index=False)
+        # return response
+
+        client_id = []
+        profile_username = []
+        profile_description = []
+        full_name = []
+        post_count = []
+        followers = []
+        followings = []
+        scraping_status = []
+        external_url = []
+        location = []
+        caption = []
+        publication_date = []
+        hashtag = []
+
+        idy = []
+        client_namey = []
+        profile_usernamey = []
+        publication_datey = []
+        hashtagy = []
+        connection_statusy = []
+
+
+        for index, row in df.iterrows():
+            y = str(row['language_analysis'])
+            #print(y)
+            if y == 'Accepted':
+                client_id.append('1')
+                profile_username.append(row['username'])
+                profile_description.append(row['description'])
+                full_name.append(row['fullName'])
+                post_count.append('0')
+                followers.append('0')
+                followings.append('0')
+                scraping_status.append('done')
+                publication_date.append(datetime.today().strftime('%Y-%m-%d'))
+                hashtag.append(row['query'])
+            else:
+                client_namey.append('1')
+                profile_usernamey.append(row['username'])
+                publication_datey.append(datetime.today().strftime('%Y-%m-%d'))
+                connection_statusy.append('34')
+
+        
+        data = {
+                    'client_id':client_id,
+                    'profile_username':profile_username,
+                    'profile_description':profile_description,
+                    'full_name': full_name,
+                    'post_count': post_count,
+                    'followers': followers,
+                    'followings': followings,
+                    'scraping_status': scraping_status,
+                    'external_url': external_url,
+                    'location': location,
+                    'caption': caption,
+                    'publication_date': publication_date,
+                    'hashtag': hashtag
+                }
+        datay = {
+                'id':idy,
+                'client_name': client_namey,
+                'profile_username': profile_usernamey,
+                'publication_date': publication_datey,
+                'hashtag': hashtagy,
+                'connection_status': connection_statusy
+
+            }
+
+        dirspot = os.getcwd()
+        print(dirspot)
+        dfx = pd.DataFrame.from_dict(data,orient='index')
+        dfx = dfx.transpose()
+        dfy = pd.DataFrame.from_dict(datay,orient='index')
+        dfy = dfy.transpose()
+        # dfx = pd.DataFrame.from_dict(data, columns=[ 'client_id','profile_username','profile_description', 'full_name','post_count','followers',
+        #         'followings','scraping_status','external_url','location','caption','publication_date','hashtag'])
+        # dfy = pd.DataFrame.from_dict(datay,columns=['id','profile_username','publication_date','hashtag','connection_status'])
+        path= 'E:/arainc-test/csv/'
+        with zipfile.ZipFile(path+'my_csvs.zip', 'w') as csv_zip:
+            csv_zip.writestr("Accepted.csv", dfx.to_csv(index=False))
+            csv_zip.writestr("Bad Language.csv", dfy.to_csv(index=False))
+        file_name = 'CSV'
+        files_path = "E:/arainc-test/csv/"
+        path_to_zip = make_archive(files_path, "zip", files_path)
+        response = HttpResponse(FileWrapper(open(path_to_zip,'rb')), content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename="{filename}.zip"'.format(
+            filename = file_name.replace(" ", "_")
+            )
         return response
+
+
+
+
+        # response = HttpResponse(content_type='application/x-zip-compressed')
+        # response['Content-Disposition'] = 'attachment; filename=my_csvs.zip'
+        # #dfy.to_csv(response,index=False)
+        # return response
+
     context = {}
     return render(request,'araincdb/scrapper/language_segment_template.html', context)
 
@@ -2316,5 +2416,6 @@ def growth_segment(request):
         df.to_csv(response,index=False)
         return response
 
+        
     context = {}
     return render(request,'araincdb/scrapper/growth_segment.html', context)
