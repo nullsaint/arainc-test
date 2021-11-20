@@ -1,0 +1,43 @@
+{% extends 'araincdb/main.html' %}
+
+{% block content %}
+
+<div class="card text-black mb-3">
+    <h5 class="card-header text-center">SCRAPE GROWTH PROFILE</h5>
+    <div class="card-body">
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+            {{ message }}
+            </div>
+        {% endfor %}
+        <form action="{% url 'universal_combine' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <br>
+            <div class="form-row">
+                <div class="form-group col-md-4 mb-0">
+                    <label class="" for="client">Client</label>
+                    <input required class="form-control form-control-sm"type="file" name="file_field" multiple>
+
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    <label class="" for="client">Select Source</label>
+                    <select required class="form-control form-control-sm" name="source" id="source">
+                        <option value="">Select an option</option>
+                        <option value="1">Phantombuster</option>
+                        <option value="2">ProfileBud</option>
+                        <option value="3">Influencer</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4 mb-0"> <br>
+                    <button type="submit" name="submit" class="btn btn-primary">
+                    <span class="fa fa-paper-plane"></span> Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+        <br>
+
+    </div>
+</div>
+
+{% endblock %}

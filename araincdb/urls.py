@@ -7,6 +7,7 @@ urlpatterns = [
     path('optimize_language/', views.optimize_language, name="optimize_language"),
     path('language_segment_template', views.language_segment_template, name="language_segment_template"),
     path('growth_segment', views.growth_segment, name="growth_segment"),
+    path('universal_combine', views.universal_combine, name="universal_combine"),
 
     path('login/', views.loginPage, name="login"),
     path('logout/', views.logoutUser, name="logout"),

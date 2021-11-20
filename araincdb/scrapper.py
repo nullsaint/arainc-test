@@ -1216,3 +1216,24 @@ def get_followee():
             'userid': userid, 'username': username, 'full_name': full_name, 'profile_pic_url': profile_pic_url, 'profile_url': profile_url
         }
         print(data)
+
+def source_phantombuster(files, source):
+    print("Phanmbuster function called")
+    print(files, source)
+    for file in files:
+        df = pd.read_csv(file,encoding='ISO-8859-1')
+        print(df)
+
+def source_profilebud(files, source):
+    print("ProfileBud function called")
+    print(files, source)
+    for file in files:
+        df = pd.read_csv(file,encoding='ISO-8859-1')
+        print(df)
+
+def source_influencer(files, source):
+    print("Influencer function called")
+    print(files, source)
+    for file in files:
+        df = pd.read_csv(file,encoding='ISO-8859-1')
+        print(df)

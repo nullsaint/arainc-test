@@ -25,6 +25,7 @@ from . filters import *
 from . scrapper import *
 from . procedures import *
 import numpy as np
+import re
 # Create your views here.
 
 
@@ -1964,7 +1965,7 @@ def combine_csv(request):
         df3 = pd.DataFrame()
         for file in files:
             print(file)
-            df = pd.read_csv(file,lineterminator='\n')
+            df = pd.read_csv(file,encoding='ISO-8859-1')
             username = df['username']
             fullName = df['fullName']
             description = df['description']
@@ -2049,7 +2050,7 @@ def optimize_language(request):
     if request.method == 'POST':
         files = request.FILES.getlist('file_field')
         for file in files:
-            df2 = pd.read_csv(file,encoding='ISO-8859-1')
+            df2 = pd.read_csv(file,encoding='utf-8')
     
         for i in df2['description']:
             for j in hashtag_lists:
@@ -2345,19 +2346,30 @@ def growth_segment(request):
             y = str(row['profile_description'])
             x = y.lower()
             for i in possible_auto_match:
-                if x.find(i) >= 0:
-                    #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
-                    row['segment']= '2'
+                # if x.find(i) >= 0:
+                #     #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
+                #     row['segment']= '2'
+                # else:
+                #     continue
+                reg_ex = re.compile(fr"{i}", re.IGNORECASE)
+                if reg_ex.findall(x):
+                    row['segment'] = '2'
                 else:
                     continue
+
         
         for index, row in df.iterrows():
             y = str(row['profile_description'])
             x = y.lower()
             for i in auto_match:
-                if x.find(i) >= 0:
-                    #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
-                    row['segment']='1'
+                # if x.find(i) >= 0:
+                #     #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
+                #     row['segment']='1'
+                # else:
+                #     continue
+                reg_ex = re.compile(fr"{i}", re.IGNORECASE)
+                if reg_ex.findall(x):
+                    row['segment'] = '1'
                 else:
                     continue
         
@@ -2365,9 +2377,14 @@ def growth_segment(request):
             y = str(row['full_name'])
             x = y.lower()
             for i in auto_match:
-                if x.find(i) >= 0:
-                    #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
-                    row['segment']='1'
+                # if x.find(i) >= 0:
+                #     #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
+                #     row['segment']='1'
+                # else:
+                #     continue
+                reg_ex = re.compile(fr"{i}", re.IGNORECASE)
+                if reg_ex.findall(x):
+                    row['segment'] = '1'
                 else:
                     continue
                     
@@ -2375,9 +2392,14 @@ def growth_segment(request):
             y = str(row['full_name'])
             x = y.lower()
             for i in phase_2:
-                if x.find(i) >= 0:
-                    #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
-                    row['segment']='24'
+                # if x.find(i) >= 0:
+                #     #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
+                #     row['segment']='24'
+                # else:
+                #     continue
+                reg_ex = re.compile(fr"{i}", re.IGNORECASE)
+                if reg_ex.findall(x):
+                    row['segment'] = '24'
                 else:
                     continue
         
@@ -2385,9 +2407,14 @@ def growth_segment(request):
             y = str(row['profile_username'])
             x = y.lower()
             for i in phase_2:
-                if x.find(i) >= 0:
-                    #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
-                    row['segment']='24'
+                # if x.find(i) >= 0:
+                #     #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
+                #     row['segment']='24'
+                # else:
+                #     continue
+                reg_ex = re.compile(fr"{i}", re.IGNORECASE)
+                if reg_ex.findall(x):
+                    row['segment'] = '24'
                 else:
                     continue
         
@@ -2395,19 +2422,29 @@ def growth_segment(request):
             y = str(row['profile_description'])
             x = y.lower()
             for i in auto_no_match:
-                if x.find(i) >= 0:
-                    #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
-                    row['segment']='11'
+                # if x.find(i) >= 0:
+                #     #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
+                #     row['segment']='11'
+                # else:
+                #     continue   
+                reg_ex = re.compile(fr"{i}", re.IGNORECASE)
+                if reg_ex.findall(x):
+                    row['segment'] = '11'
                 else:
-                    continue   
+                    continue
         
         for index, row in df.iterrows():
             y = str(row['full_name'])
             x = y.lower()
-            for i in phase_2:
-                if x.find(i) >= 0:
-                    #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
-                    row['segment']='11'
+            for i in auto_no_match:
+                # if x.find(i) >= 0:
+                #     #print('Found ' + i + ' for ' + str(y) + ' : Adding as possible_auto_match.')
+                #     row['segment']='11'
+                # else:
+                #     continue
+                reg_ex = re.compile(fr"{i}", re.IGNORECASE)
+                if reg_ex.findall(x):
+                    row['segment'] = '11'
                 else:
                     continue
 
@@ -2419,3 +2456,23 @@ def growth_segment(request):
         
     context = {}
     return render(request,'araincdb/scrapper/growth_segment.html', context)
+
+@login_required(login_url='login')
+def universal_combine(request):
+    #response = HttpResponse(content_type='text/csv')
+
+    if request.method == "POST":
+        files = request.FILES.getlist('file_field')
+        source = request.POST.get('source')
+        print(source)
+        if source == '1':
+            data = source_phantombuster(files, source)
+        elif source == '2':
+            data = source_profilebud(files, source)
+        elif source == '3':
+            data = source_influencer(files, source)
+        else:
+            print('done')
+
+    context = {}
+    return render(request, 'araincdb/scrapper/universal_combine.html', context)
