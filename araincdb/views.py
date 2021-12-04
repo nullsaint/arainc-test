@@ -2050,7 +2050,7 @@ def optimize_language(request):
     if request.method == 'POST':
         files = request.FILES.getlist('file_field')
         for file in files:
-            df2 = pd.read_csv(file,encoding='utf-8')
+            df2 = pd.read_csv(file,encoding='ISO-8859-1')
     
         for i in df2['description']:
             for j in hashtag_lists:
@@ -2076,7 +2076,7 @@ def optimize_language(request):
             try:
                 x,y = count_ratio(str)
                 count+=1
-                
+                print(count)
                 data=[]
                 res = detect_langs(str)
                 language.append(detect_langs(str))
@@ -2144,7 +2144,7 @@ def language_segment_template(request):
     if request.method == "POST":
         files = request.FILES.getlist('file_field')
         for file in files:
-            df = pd.read_csv(file)
+            df = pd.read_csv(file,encoding='ISO-8859-1')
         for i in df['language']:
             if i == 'Unindentified':
                 language_analysis.append('Unidentified')
@@ -2467,12 +2467,27 @@ def universal_combine(request):
         print(source)
         if source == '1':
             data = source_phantombuster(files, source)
+            print(data)
+            print(type(data))
+            
         elif source == '2':
             data = source_profilebud(files, source)
+            #print(data)
+            data['client_id'] = '1'
+            data['full_name'] = ''
+            data['location'] = ''
+            data['caption'] = ''
+            column_name = ["client_id", "profile_username","full_name","location","caption","hashtag"]
+            data = data.reindex(columns=column_name)
         elif source == '3':
             data = source_influencer(files, source)
         else:
             print('done')
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=combined_unique.csv'
+        data.to_csv(response,index=False)
+        return response
 
     context = {}
     return render(request, 'araincdb/scrapper/universal_combine.html', context)

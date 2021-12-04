@@ -17,6 +17,8 @@ from . models import *
 from django.http import HttpResponse,JsonResponse
 import io, csv
 import pandas as pd
+import numpy as np
+import re
 
 
 
@@ -1220,16 +1222,55 @@ def get_followee():
 def source_phantombuster(files, source):
     print("Phanmbuster function called")
     print(files, source)
+    df2 = pd.DataFrame()
+    df3 = pd.DataFrame()
     for file in files:
-        df = pd.read_csv(file,encoding='ISO-8859-1')
-        print(df)
+            print(file)
+            df = pd.read_csv(file,encoding='ISO-8859-1')
+            username = df['username']
+            fullName = df['fullName']
+            description = df['description']
+            query = df['query']
+            data = {
+                "username": username,
+                "fullName": fullName,
+                "description": description,
+                "query": query
+            }
+            #Growth.objects.bulk_create(data)
+            dfx = pd.DataFrame(data)
+
+            df2 = pd.concat([df2,dfx]).drop_duplicates(subset=['username'], keep='first')
+            #df2 = pd.concat([df2,dfx])
+        
+    df3 = df2.replace(np.nan, 'a', regex=True)
+    return df3
 
 def source_profilebud(files, source):
     print("ProfileBud function called")
-    print(files, source)
+    #print(files, source)
+    count = 0
+    df = pd.DataFrame()
+    df2 = pd.DataFrame()
+    df3 = pd.DataFrame()
     for file in files:
+        file_name = str(file.name)
+        result = ''.join([i for i in file_name if not i.isdigit()])
+        modified_string = re.sub(r"\([^()]*\)", "", result)
+        file_name = modified_string[:-4]
+        print(file_name,df.count)
         df = pd.read_csv(file,encoding='ISO-8859-1')
-        print(df)
+        username = df['Username']
+        data = {
+            "profile_username": username
+        }
+        dfx = pd.DataFrame(data)
+        dfx['hashtag'] = file_name
+
+        df2 = pd.concat([df2,dfx]).drop_duplicates(subset=['profile_username'], keep='first')
+    
+    return df2
+        
 
 def source_influencer(files, source):
     print("Influencer function called")
